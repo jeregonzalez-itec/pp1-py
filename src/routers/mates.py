@@ -11,6 +11,7 @@ router = APIRouter(
 mates_db = [
     {
         "id": 1,
+        "image": "https://dcdn-us.mitiendanube.com/stores/007/657/161/products/whatsapp-image-2026-05-26-at-15-43-36-15bb01a41683c6b0fa17798993102248-1024-1024.webp",
         "nombre": "Mate Imperial",
         "material": "Cuero",
         "precio": 25000,
@@ -18,6 +19,7 @@ mates_db = [
     },
     {
         "id": 2,
+        "image": "https://dcdn-us.mitiendanube.com/stores/007/657/161/products/whatsapp-image-2026-05-26-at-15-43-43-80291fa244c7918b1717798986879104-1024-1024.webp",
         "nombre": "Mate Camionero",
         "material": "Calabaza",
         "precio": 18000,
@@ -25,13 +27,15 @@ mates_db = [
     },
     {
         "id": 3,
-        "nombre": "Mate Criollo",
+        "image": "https://dcdn-us.mitiendanube.com/stores/007/657/161/products/whatsapp-image-2026-05-12-at-14-38-58-1-f46bd7a41c5701bff617786537846413-1024-1024.webp",
+        "nombre": "IMPERIAL CRIOLLO DE CALABAZA",
         "material": "Calabaza",
-        "precio": 18000,
+        "precio": 40000,
         "stock": 3
     },
     {
         "id": 4,
+        "image": "https://dcdn-us.mitiendanube.com/stores/007/657/161/products/whatsapp-image-2026-05-26-at-15-43-35-3-abf4f884bb4d17e11817798221302116-1024-1024.webp",
         "nombre": "Mate galleta",
         "material": "Calabaza",
         "precio": 20000,
@@ -39,6 +43,7 @@ mates_db = [
     },
     {
         "id": 5,
+        "image": "https://dcdn-us.mitiendanube.com/stores/007/657/161/products/metalico-87d5ab8228c9808e4717779946991298-1024-1024.webp",
         "nombre": "Mate Termico",
         "material": "Acero Inoxidable",
         "precio": 10000,

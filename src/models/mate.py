@@ -2,6 +2,10 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 
 class MateBase(BaseModel):
+    image: Annotated[
+        str,
+        Field(description="Imagen del mate")
+    ]
     nombre: Annotated[
         str,
         Field(description="Nombre del mate")
