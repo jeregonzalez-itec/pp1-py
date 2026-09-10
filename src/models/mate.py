@@ -1,34 +1,18 @@
-from typing import Annotated
-from pydantic import BaseModel, Field
 
-class MateBase(BaseModel):
-    image: Annotated[
-        str,
-        Field(description="Imagen del mate")
-    ]
-    nombre: Annotated[
-        str,
-        Field(description="Nombre del mate")
-    ]
+from database import Base
+from sqlalchemy import Boolean, Column, Integer, String, Float
 
-    material: Annotated[
-        str,
-        Field(description="Material del mate")
-    ]
+class MateBase(Base):
+    __tablename__ = "mates"
 
-    precio: Annotated[
-        float,
-        Field(gt=0, description="Precio del mate")
-    ]
-
-    stock: Annotated[
-        int,
-        Field(ge=0, description="Cantidad disponible")
-    ]
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String, nullable=False)
+    material = Column(String, nullable=False)
+    precio = Column(Float, nullable=False)
+    stock = Column(Integer, nullable=False)
+    descripcion = Column(String, nullable=False)
+    disponible = Column(Boolean)
 
 
 class Mate(MateBase):
-    id: Annotated[
-        int,
-        Field(description="ID del mate")
-    ]
+    pass
