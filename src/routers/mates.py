@@ -12,7 +12,7 @@ NOT_FOUND_RESPONSE = {
         "content": {
             "application/json": {
                 "example": {
-                    "detail": "Artículo no encontrado",
+                    "detail": "Mate no encontrado",
                 }
             }
         },
@@ -26,7 +26,9 @@ NOT_FOUND_RESPONSE = {
 async def get_mates(db: Session = Depends(get_db)):  # Inyección de Dependencias
     # EN SQL SERÍA: SELECT * FROM mates
     mates = db.exec(select(Mate)).all()
-    return mates
+    return paginate(
+     mates
+    )
 
 
 # get by id
@@ -75,10 +77,8 @@ async def editar_mate(
     if mate_obtenido is not None:
         mate_obtenido.nombre = mate_editar.nombre
         mate_obtenido.precio = mate_editar.precio
-        mate_obtenido.stock = mate_editar.stock
-        mate_obtenido.material = mate_editar.material
-        mate_obtenido.descripcion = mate_editar.descripcion
-        mate_obtenido.disponible = mate_editar.disponible
+        mate_obtenido.activo = mate_editar.activo
+        mate_obtenido.proveedor_id = mate_editar.proveedor_id
         db.commit()
         db.refresh(mate_obtenido)
         return mate_obtenido
@@ -89,7 +89,7 @@ async def editar_mate(
 @mates_routers.delete(
     "/{id}",  # ?logico=false
     responses=NOT_FOUND_RESPONSE,  # DOCUMENTACION
-    response_model=MatePublic,  # VALIDACION DATOS DE SALIDA
+    response_model=list[MatePublic],  # VALIDACION DATOS DE SALIDA
 )
 async def borrar_mate(
     id: Annotated[int, Path(gt=0)],
