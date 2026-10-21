@@ -2,16 +2,16 @@ from sqlmodel import Field, Relationship, SQLModel
 
 
 # Consultar articulos.py para explicación más detallada
-class ProveedorBase(SQLModel):
+class VeterinariaBase(SQLModel):
     nombre: str = Field(max_length=90)
     telefono: str
 
 
-class Proveedor(ProveedorBase, table=True):
+class Veterinaria(VeterinariaBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     # Para evitar import circular, Articulo va en str
-    mates: list["Mate"] | None = Relationship(back_populates="proveedor")
+    mates: list["TagNFC"] | None = Relationship(back_populates="veterinaria")
 
 
-class ProveedorPublic(ProveedorBase):
+class VeterinariaPublic(VeterinariaBase):
     id: int

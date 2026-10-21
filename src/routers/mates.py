@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from fastapi_pagination import Page, paginate
 from sqlmodel import Session, select
 from database import get_db
-from models.mate import Mate,MateBase,MatePublic
+from models.tagnfc import Mate,MateBase,MatePublic
 from models.anidados import MateNested
 mates_routers = APIRouter()
 NOT_FOUND_RESPONSE = {

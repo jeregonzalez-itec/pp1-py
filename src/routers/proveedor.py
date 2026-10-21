@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from database import get_db
 from models.anidados import ProveedorNested
-from models.proveedor import Proveedor, ProveedorBase, ProveedorPublic
+from models.veterinaria import Proveedor, ProveedorBase, ProveedorPublic
 proveedor_routers = APIRouter()
 NOT_FOUND_RESPONSE = {
     404: {
@@ -55,4 +55,26 @@ async def editar_proveedor(
         db.refresh(proveedor_obtenido)
         return proveedor_obtenido
 
+    raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+
+
+@proveedor_routers.delete(
+    "/{id}",  # ?logico=false
+    responses=NOT_FOUND_RESPONSE,  # DOCUMENTACION
+    response_model=list[ProveedorPublic],  # VALIDACION DATOS DE SALIDA
+)
+async def borrar_proveedor(
+    id: Annotated[int, Path(gt=0)],
+    db: Annotated[Session, Depends(get_db)],
+    logico: Annotated[bool, Query(description="Mantener registro?")] = False,
+) -> ProveedorPublic:
+
+    proveedor_obtenido = db.get(Proveedor, id)
+    if proveedor_obtenido is not None:
+        if logico:
+            proveedor_obtenido.disponible = False
+        else:
+            db.delete(proveedor_obtenido)
+            db.commit()
+        return db.exec(select(Proveedor)).all()
     raise HTTPException(status_code=404, detail="Proveedor no encontrado")

@@ -1,6 +1,6 @@
 
-from .mate import Mate ,MatePublic
-from .proveedor import ProveedorPublic, Proveedor
+from .tagnfc import Mate ,MatePublic
+from .veterinaria import ProveedorPublic, Proveedor
 
 #Articulo Anidado
 class MateNested(MatePublic):

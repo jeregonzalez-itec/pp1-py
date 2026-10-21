@@ -8,9 +8,9 @@ from alembic import context
 from sqlmodel import SQLModel
 
 from alembic import context
-from src.models.mate import Mate
-from src.models.proveedor import Proveedor
-from src.models.usuarios import Usuario
+from models.tagnfc import Mate
+from models.veterinaria import Proveedor
+from models.usuario import Usuario
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
