@@ -1,0 +1,767 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Encontrame chapitas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Chapita identificatoria para mascotas con QR y NFC, impresa en 3D. Tres tamaños: 30, 36 y 44 mm.">
+<link rel="preload" href="fuentes/Outfit-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:Outfit;src:url(fuentes/Outfit-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Outfit;src:url(fuentes/Outfit-500.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Outfit;src:url(fuentes/Outfit-700.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:Outfit;src:url(fuentes/Outfit-800.woff2) format("woff2");font-weight:800;font-display:swap}
+
+:root{
+  --cobre:#8D4925; --cobre-hover:#7A3D1D; --crema:#F3E6CF; --huella:#3A1D0E; --senal:#2A8C82;
+  --papel:#FBF7F1; --arena:#F1E8DC; --tinta:#2E1A0F; --tinta-2:#6B4A36; --linea:rgba(46,26,15,.14);
+  --cota:#8D4925; --sobre-cobre:#FBF7F1; --halo:rgba(141,73,37,.12);
+  --radio:22px; --g:clamp(16px,4vw,56px); --gutter:max(var(--g),env(safe-area-inset-left,0px),env(safe-area-inset-right,0px)); --max:1240px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#1E130C; --arena:#2A1B11; --tinta:#F3E6CF; --tinta-2:#CDB89E; --linea:rgba(243,230,207,.16);
+  --cota:#E3B48F; --cobre-hover:#A2582F; --halo:rgba(243,230,207,.20); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --papel:#1E130C; --arena:#2A1B11; --tinta:#F3E6CF; --tinta-2:#CDB89E; --linea:rgba(243,230,207,.16);
+  --cota:#E3B48F; --cobre-hover:#A2582F; --halo:rgba(243,230,207,.20); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.6 Outfit,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{font-weight:700;letter-spacing:-.025em;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.5rem,4.9vw,4.4rem);line-height:1.02;font-weight:800;letter-spacing:-.035em}
+h2{font-size:clamp(2rem,3.5vw,3.1rem);line-height:1.06}
+h3{font-size:1.25rem;line-height:1.25}
+p{margin:0;text-wrap:pretty}
+.lead{font-size:clamp(1.0625rem,1.35vw,1.25rem);color:var(--tinta-2);max-width:34ch}
+:focus-visible{outline:3px solid var(--senal);outline-offset:3px;border-radius:8px}
+.saltar{position:absolute;left:12px;top:-60px;background:var(--cobre);color:#fff;padding:10px 16px;border-radius:999px;z-index:50;text-decoration:none}
+.saltar:focus{top:12px}
+
+/* botones */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;border-radius:999px;font:600 1rem/1 Outfit,sans-serif;text-decoration:none;border:2px solid var(--cobre);transition:background-color .2s,color .2s,transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-1{background:var(--cobre);color:var(--sobre-cobre)}
+.btn-1:hover{background:var(--cobre-hover);border-color:var(--cobre-hover)}
+.btn-2{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn-2:hover{border-color:var(--cobre)}
+
+/* navegacion */
+.nav{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background-color .3s,box-shadow .3s}
+.nav.solida{background:color-mix(in srgb,var(--papel) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--linea)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);height:72px;display:flex;align-items:center;gap:28px}
+.marca{display:block;width:150px;flex:none}
+.marca img{width:100%;height:auto}
+.logo-osc{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo-cla{display:none}:root:not([data-theme="light"]) .logo-osc{display:block}}
+:root[data-theme="dark"] .logo-cla{display:none}:root[data-theme="dark"] .logo-osc{display:block}
+.nav-links{display:flex;gap:26px;margin-left:auto;list-style:none;padding:0;margin-top:0;margin-bottom:0}
+.nav-links a{text-decoration:none;font-weight:500;color:var(--tinta-2);padding:10px 0}
+.nav-links a:hover{color:var(--tinta)}
+.nav .btn{min-height:44px;padding:0 20px}
+.menu-btn{display:none;margin-left:auto;width:48px;height:48px;border-radius:50%;border:1px solid var(--linea);background:transparent;color:var(--tinta);cursor:pointer}
+.menu-btn span{display:block;width:18px;height:2px;background:currentColor;margin:4px auto;transition:transform .2s}
+.menu-btn[aria-expanded="true"] span:first-child{transform:translateY(3px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-3px) rotate(-45deg)}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav-links,.nav .btn-nav{display:none}
+  .nav.abierta{background:var(--papel)}
+  .nav.abierta .nav-links{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:var(--papel);padding:8px var(--gutter) 24px;box-shadow:0 12px 24px rgba(0,0,0,.08)}
+  .nav.abierta .nav-links a{display:block;padding:14px 0;font-size:1.25rem;color:var(--tinta);border-bottom:1px solid var(--linea)}
+  .nav.abierta .nav-links .solo-movil{display:block;margin-top:16px}
+  .nav.abierta .nav-links .solo-movil a{border:0;text-align:center;color:var(--sobre-cobre)}
+}
+.solo-movil{display:none}
+h1 .marron{color:#92553A} /* el cobrizo de la chapita tal como se ve en pantalla, igual en modo claro y oscuro */
+
+/* recorrido de la chapita: solo el título, que entra deslizándose desde el costado al llegar a cada etapa */
+.panel.solo-titulo h2{font-size:clamp(2.2rem,4vw,3.6rem);max-width:12ch;opacity:0;transform:translateX(-80px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.panel.solo-titulo.visible h2{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.panel.solo-titulo h2{transform:none;transition:opacity .3s}.panel.hero.fuera>.caja{transform:none}}
+@media (max-width:860px){
+  .panel.solo-titulo>.caja{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;padding:0 0 12px}
+  .panel.solo-titulo h2{font-size:2rem;text-shadow:0 1px 14px var(--papel),0 0 4px var(--papel)}
+}
+
+/* perro y gato juntos, recortados sobre el fondo: halo suave, collar apenas visible y chapitas que se balancean */
+.mascotas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;width:min(74%,720px);aspect-ratio:1144/919;z-index:2;pointer-events:none}
+.mascotas::before{content:"";position:absolute;inset:-6% -10% -2%;background:radial-gradient(closest-side,var(--halo),transparent);z-index:0}
+.mascotas>*{position:absolute}
+.mascotas .foto{inset:0;width:100%;height:100%;z-index:1}
+.mascotas .collar{inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible}
+.mascotas .collar path{fill:none;stroke:rgba(35,22,14,.45);stroke-width:7;stroke-linecap:round;animation:collar 2.8s ease-in-out infinite}
+.mascotas .colgante{left:var(--x);top:var(--y);width:var(--w);height:auto;z-index:3;transform-origin:50% 5%;animation:balanceo 2.8s ease-in-out infinite;filter:drop-shadow(1px 3px 2px rgba(0,0,0,.35))}
+.mascotas .tarde{animation-delay:-1.3s}
+@keyframes balanceo{0%,100%{transform:translateX(-50%) rotate(-8deg)}50%{transform:translateX(-50%) rotate(8deg)}}
+@keyframes collar{0%,100%{transform:translateY(0)}50%{transform:translateY(2px)}}
+@media (prefers-reduced-motion:reduce){.mascotas .colgante,.mascotas .collar path{animation:none}.mascotas .colgante{transform:translateX(-50%)}}
+@media (max-width:860px){.mascotas{top:96px;transform:translateX(-50%);width:min(86%,360px)}}
+/* celular: primera pantalla más compacta para que el perro y el gato (y después la chapita) se vean enteros arriba */
+@media (max-width:860px){
+  .panel.hero h1{font-size:clamp(1.75rem,7.6vw,2.3rem)}
+  .panel.hero .lead{font-size:.95rem;margin-top:12px!important}
+  .panel.hero .btns{margin-top:16px;gap:8px}
+  .panel.hero .btn{min-height:44px}
+  .panel.hero .ficha{display:none}
+  .panel.hero>.caja{transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .45s}
+  .panel.hero.fuera>.caja{transform:translateX(-115%);opacity:0;pointer-events:none}
+  .mascotas{top:76px;width:min(92%,calc((100svh - 430px) * 1.245))}
+}
+.stage.sin3d .mascotas~.respaldo,.stage.sin3d .respaldo{opacity:0}
+
+/* historia con escena 3D */
+.story{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.panels{grid-column:1;grid-row:1;position:relative;z-index:2}
+.panel{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 0 64px}
+.panel h2{max-width:14ch}
+.panel p.lead{margin-top:20px}
+.paso{font-weight:500;color:var(--cota);margin-bottom:14px;font-size:.98rem}
+.nota{margin-top:18px;font-size:.875rem;color:var(--tinta-2);max-width:40ch}
+.ficha{display:flex;gap:12px;align-items:center;margin-top:36px;color:var(--tinta-2);font-size:.95rem}
+.ficha svg{flex:none}
+.stage{grid-column:2;grid-row:1;position:sticky;top:0;height:100svh;align-self:start;overflow:hidden;margin-right:calc(-1 * (var(--gutter) + max(0px,(100vw - var(--max)) / 2)))}
+.stage canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;pointer-events:none}
+.stage .respaldo{position:absolute;inset:12% 10%;width:80%;height:76%;object-fit:contain;opacity:0;transition:opacity .4s}
+.stage.sin3d .respaldo{opacity:1}
+.etapas{position:absolute;left:8%;right:8%;bottom:28px;display:flex;gap:6px;list-style:none;margin:0;padding:0;pointer-events:none}
+.etapas li{flex:1;font-size:.78rem;color:var(--tinta-2);padding-top:10px;border-top:2px solid var(--linea);transition:color .3s,border-color .3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.etapas li.on{color:var(--tinta);border-top-color:var(--cobre)}
+.carga{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:.9rem;color:var(--tinta-2);transition:opacity .4s}
+.carga.listo{opacity:0}
+@media (max-width:860px){
+  .story{grid-template-columns:minmax(0,1fr);padding:0}
+  .stage{grid-column:1;margin:0;height:100svh}
+  .panels{grid-column:1;padding:0 var(--gutter)}
+  .panel{min-height:100svh;justify-content:flex-end;padding:0 0 28px}
+  .panel>.caja{background:color-mix(in srgb,var(--papel) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:var(--radio);padding:22px 20px 24px;box-shadow:0 1px 0 var(--linea)}
+  .panel.hero{justify-content:flex-end}
+  h1{font-size:clamp(2.1rem,9vw,2.8rem)}
+  .panel h2{font-size:1.85rem}
+  .lead{font-size:1.02rem}
+  .btns{margin-top:20px}
+  .btn{flex:1 1 auto}
+  .ficha{margin-top:18px}
+  .etapas{top:84px;bottom:auto;left:var(--gutter);right:var(--gutter)}
+  .etapas li{font-size:0;padding-top:0}
+}
+
+/* secciones */
+.sec{max-width:var(--max);margin:0 auto;padding:clamp(80px,12vw,150px) var(--gutter)}
+.sec-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:end;margin-bottom:56px}
+.sec-head p{color:var(--tinta-2);max-width:46ch}
+@media (max-width:860px){.sec-head{grid-template-columns:1fr;gap:16px;margin-bottom:36px}}
+
+.pasos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;list-style:none;padding:0;margin:0;counter-reset:p}
+.pasos li{background:var(--arena);border-radius:var(--radio);padding:30px 28px 32px;counter-increment:p}
+.pasos li::before{content:counter(p);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--cobre);color:var(--cobre);font-weight:700;margin-bottom:56px}
+:root[data-theme="dark"] .pasos li::before{color:var(--cota);border-color:var(--cota)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pasos li::before{color:var(--cota);border-color:var(--cota)}}
+.pasos h3{margin-bottom:10px}
+.pasos p{color:var(--tinta-2)}
+/* puntos de venta: filtro por ciudad + tarjetas con la ubicación sobre la RN 36 */
+.ciudades{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:24px}
+.ciudades .rot{font-size:.9rem;font-weight:600;color:var(--tinta-2);margin-right:6px}
+.ciudades button{min-height:44px;padding:0 18px;border-radius:999px;font:600 .95rem Outfit,sans-serif;cursor:pointer;border:1.5px solid var(--linea);background:transparent;color:var(--tinta);transition:background-color .2s,color .2s,border-color .2s}
+.ciudades button[aria-pressed="true"]{background:var(--cobre);border-color:var(--cobre);color:var(--sobre-cobre)}
+.puntos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;align-items:start;list-style:none;margin:0;padding:0}
+.punto{background:var(--papel);border:1.5px solid var(--linea);border-radius:var(--radio);overflow:hidden;min-width:0}
+.punto .ruta{background:var(--arena);padding:18px 20px 14px}
+.punto .ruta svg{display:block;width:100%;height:auto}
+.punto .ruta text{font:400 11px Outfit,sans-serif;fill:var(--tinta-2)}
+.punto .ruta .linea{stroke:var(--cota);opacity:.55}
+.punto .ruta .pueblo{fill:var(--papel);stroke:var(--tinta-2)}
+.punto .ruta .aqui{fill:var(--cobre);stroke:var(--crema)}
+.punto .ruta .halo{fill:var(--cobre);opacity:.22}
+.punto .ruta small{display:block;margin-top:4px;font-size:.7rem;letter-spacing:.04em;color:var(--tinta-2)}
+.punto .info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:12px}
+.punto .tipo{font-size:.85rem;font-weight:600;color:var(--cota)}
+.punto h3{font-size:1.3rem}
+.punto .datos-punto{font-size:.92rem;color:var(--tinta-2);display:flex;flex-direction:column;gap:2px}
+.punto .acciones{display:flex;flex-wrap:wrap;gap:8px}
+.punto .acciones .btn{min-height:44px;padding:0 18px;font-size:.92rem;flex:0 0 auto}
+.punto .marca-ej{align-self:flex-start;font-size:.75rem;font-weight:600;color:var(--cota);border:1.5px solid currentColor;border-radius:999px;padding:2px 10px}
+.sumarse{border:1.5px dashed var(--linea);border-radius:var(--radio);padding:26px 24px;display:flex;flex-direction:column;gap:12px;justify-content:center;min-height:240px}
+.sumarse h3{font-size:1.3rem}
+.sumarse p{color:var(--tinta-2);font-size:.95rem}
+.sumarse .pronto{font-weight:600;color:var(--cota)}
+.aviso{margin-top:20px;display:flex;gap:16px;align-items:flex-start;border:1.5px solid var(--linea);border-radius:var(--radio);padding:22px 26px}
+.aviso strong{font-weight:700}
+.aviso p{color:var(--tinta-2)}
+@media (max-width:860px){.pasos{grid-template-columns:1fr}.pasos li::before{margin-bottom:24px}}
+
+/* tamaños */
+.tam-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.lado{display:inline-flex;background:var(--arena);border-radius:999px;padding:4px}
+.lado button{font:600 .95rem Outfit,sans-serif;border:0;background:transparent;color:var(--tinta-2);min-height:44px;padding:0 22px;border-radius:999px;cursor:pointer;transition:background-color .2s,color .2s}
+.lado button[aria-pressed="true"]{background:var(--cobre);color:var(--sobre-cobre)}
+/* las 6 imágenes comparten lienzo y escala (11 px/mm) y el borde inferior del disco cae en 610/640: alineadas arriba, las chapitas quedan sobre la misma línea */
+.tams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+.tam{text-align:center}
+.tam .fig{position:relative;aspect-ratio:560/640}
+.tam .fig img{position:absolute;inset:0;width:100%;height:100%;transition:opacity .45s,transform .45s}
+.tam .fig .dorso{opacity:0;transform:scale(.98)}
+.tams.ver-dorso .fig .dorso{opacity:1;transform:none}
+.tams.ver-dorso .fig .frente{opacity:0;transform:scale(.98)}
+.cota-h{display:flex;align-items:center;margin:calc(10px - 5.36%) auto 0;height:14px;color:var(--cota)}
+.cota-h::before,.cota-h::after{content:"";width:1.5px;height:14px;background:currentColor}
+.cota-h span{flex:1;height:1.5px;background:currentColor}
+.tam .med{font-weight:700;color:var(--cota);margin-top:8px}
+.tam h3{margin-top:18px;font-size:1.6rem}
+.tam p{color:var(--tinta-2)}
+.tabla-wrap{margin-top:56px;overflow-x:auto;border-radius:var(--radio);border:1.5px solid var(--linea)}
+table{width:100%;border-collapse:collapse;min-width:560px;font-variant-numeric:tabular-nums}
+caption{text-align:left;padding:18px 22px 4px;color:var(--tinta-2);font-size:.95rem}
+th,td{padding:14px 22px;text-align:right;border-bottom:1px solid var(--linea)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-weight:700;color:var(--cota)}
+tbody th{font-weight:500}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+.orienta{margin-top:18px;color:var(--tinta-2);font-size:.95rem;max-width:70ch}
+@media (max-width:640px){.tams{gap:8px}.tam h3{font-size:1.15rem}.tam p{font-size:.85rem}}
+
+/* fabricación */
+.detalles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.detalles figure{margin:0;background:var(--arena);border-radius:var(--radio);overflow:hidden}
+.detalles img{width:100%;aspect-ratio:1;object-fit:cover}
+.detalles figcaption{padding:14px 18px 18px;font-size:.95rem;color:var(--tinta-2)}
+.detalles figcaption b{display:block;color:var(--tinta);font-weight:600}
+@media (max-width:860px){.detalles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+
+/* preguntas */
+.faq{max-width:860px}
+.faq details{border-bottom:1px solid var(--linea)}
+.faq details:first-of-type{border-top:1px solid var(--linea)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 48px 22px 0;font-size:1.2rem;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:10px;top:50%;width:12px;height:12px;border-right:2px solid var(--cobre);border-bottom:2px solid var(--cobre);transform:translateY(-70%) rotate(45deg);transition:transform .25s}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faq details p{padding:0 0 24px;color:var(--tinta-2);max-width:62ch}
+.faq .pend{display:inline-block;margin-top:8px;font-size:.85rem;color:var(--cota)}
+
+/* cierre */
+.cierre{background:var(--cobre);color:var(--crema);border-radius:clamp(24px,4vw,40px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center;overflow:hidden;max-width:var(--max);margin:0 auto}
+.cierre .txt{padding:clamp(36px,6vw,80px)}
+.cierre h2{color:var(--crema);max-width:12ch}
+.cierre p{margin-top:18px;max-width:40ch;color:color-mix(in srgb,var(--crema) 86%,transparent)}
+.cierre .btn-1{background:var(--crema);color:var(--cobre);border-color:var(--crema)}
+.cierre .btn-1:hover{background:#fff;border-color:#fff}
+.cierre .btn-2{color:var(--crema);border-color:color-mix(in srgb,var(--crema) 40%,transparent)}
+.cierre .btn-2:hover{border-color:var(--crema)}
+.cierre .pronto{margin-top:28px;font-weight:600;color:var(--crema)}
+.cierre .img{align-self:stretch;display:grid;place-items:center;padding:24px;background:radial-gradient(closest-side,rgba(243,230,207,.16),transparent)}
+.cierre .img img{max-height:440px;width:auto;filter:drop-shadow(0 24px 30px rgba(30,12,4,.35))}
+@media (max-width:860px){.cierre{grid-template-columns:1fr;margin:0 var(--gutter)}.cierre .img{order:-1;padding:36px 24px 0}.cierre .img img{max-height:260px}}
+.wrap-cierre{padding:0 var(--gutter) clamp(80px,10vw,120px)}
+@media (max-width:860px){.wrap-cierre{padding:0 0 80px}}
+
+/* pie */
+footer{border-top:1px solid var(--linea)}
+.pie{max-width:var(--max);margin:0 auto;padding:48px var(--gutter) 56px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between}
+.pie .marca{width:170px}
+.pie p{color:var(--tinta-2);font-size:.95rem;max-width:36ch;margin-top:14px}
+.pie ul{list-style:none;padding:0;margin:0;display:flex;gap:24px;flex-wrap:wrap}
+.pie ul a{text-decoration:none;color:var(--tinta-2);padding:8px 0;display:inline-block}
+.pie ul a:hover{color:var(--tinta)}
+.pie small{display:block;width:100%;color:var(--tinta-2);font-size:.85rem}
+</style>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="marca" href="#inicio" aria-label="Encontrame, inicio">
+      <img class="logo-cla" src="img/logo.svg" alt="Encontrame" width="150" height="20">
+      <img class="logo-osc" src="img/logo_crema.svg" alt="Encontrame" width="150" height="20">
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú"><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#tamanos">Tamaños</a></li>
+      <li><a href="#preguntas">Preguntas frecuentes</a></li>
+      <li class="solo-movil"><a class="btn btn-1" href="#pedido">Quiero mi chapita</a></li>
+    </ul>
+    <a class="btn btn-1 btn-nav" href="#pedido">Quiero mi chapita</a>
+  </div>
+</header>
+
+<main id="contenido">
+<section class="story" id="inicio" aria-label="Presentación y fabricación de la chapita">
+  <div class="stage" id="stage">
+    <img class="respaldo" src="img/hero.webp" alt="Chapita Encontrame mediana: frente cobrizo con una huella, un anillo y ondas en relieve crema, y aro superior para el collar" width="719" height="900">
+    <figure class="mascotas" id="mascotas">
+      <img class="foto" src="img/mascotas_juntas.webp" alt="Un cachorro blanco y negro y un gato naranja y blanco recostado a su lado, cada uno con su chapita Encontrame en el collar" width="1144" height="919">
+      <svg class="collar" viewBox="0 0 1144 919" aria-hidden="true"><path d="M88 338 Q160 392 236 328"/><path class="tarde" d="M893 692 Q970 758 1047 700"/></svg>
+      <img class="colgante" src="img/chapita_colgante.webp" alt="" width="200" height="239" style="--x:14%;--y:39.2%;--w:5.6%">
+      <img class="colgante tarde" src="img/chapita_colgante.webp" alt="" width="200" height="239" style="--x:84.8%;--y:78.6%;--w:5.2%">
+    </figure>
+    <p class="carga" id="carga" aria-hidden="true">Preparando la chapita</p>
+    <ol class="etapas" id="etapas" aria-hidden="true">
+      <li class="on">1 Terminada</li><li>2 Dorso</li><li>3 Chip NFC</li><li>4 Pausa</li><li>5 Base</li>
+    </ol>
+  </div>
+
+  <div class="panels">
+    <div class="panel hero"><div class="caja">
+      <h1>Si se pierde, <span class="marron">que puedan encontrar el camino de vuelta.</span></h1>
+      <p class="lead" style="margin-top:22px">Una chapita con QR y NFC para el collar. Quien encuentre a tu mascota la escanea con el celular, ve cómo contactarte y puede ayudar a que vuelva a casa.</p>
+      <div class="btns">
+        <a class="btn btn-1" href="#como-funciona">Descubrí cómo funciona</a>
+        <a class="btn btn-2" href="#tamanos">Conocé las chapitas</a>
+      </div>
+      <p class="ficha">
+        <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="22" width="24" height="3" rx="1"/><rect x="5" y="18" width="24" height="3" rx="1"/><rect x="5" y="14" width="24" height="3" rx="1" stroke-dasharray="2 2"/><path d="M17 4v7m-3-3 3 3 3-3"/></g></svg>
+        Impresa en 3D, capa por capa. El chip NFC va adentro y el QR, en el dorso.
+      </p>
+    </div></div>
+
+    <div class="panel solo-titulo"><div class="caja">
+      <h2>Del otro lado, el QR.</h2>
+    </div></div>
+
+    <div class="panel solo-titulo"><div class="caja">
+      <h2>Adentro va el chip NFC.</h2>
+    </div></div>
+
+    <div class="panel solo-titulo"><div class="caja">
+      <h2>La impresora hace una pausa.</h2>
+    </div></div>
+
+    <div class="panel solo-titulo"><div class="caja">
+      <h2>Todo empieza en la base.</h2>
+    </div></div>
+  </div>
+</section>
+
+<section class="sec" id="como-funciona" aria-labelledby="t-como">
+  <div class="sec-head">
+    <h2 id="t-como">Cómo funciona</h2>
+    <p>No hace falta batería, y quien encuentra a tu mascota no necesita instalar nada.</p>
+  </div>
+  <ol class="pasos">
+    <li><h3>Registrás a tu mascota</h3><p>La anotás en la app web de Encontrame y le colgás la chapita del collar, por el aro superior.</p></li>
+    <li><h3>Alguien la encuentra y la escanea</h3><p>Con la cámara del celular lee el QR del dorso. Si su teléfono tiene NFC, puede acercarlo a la chapita. En los dos casos se abre la página de identificación de la mascota.</p></li>
+    <li><h3>Usa esos datos para contactarte</h3><p>Con la información de contacto disponible en esa página, puede avisarte y ayudar a que vuelva a casa.</p></li>
+  </ol>
+  <div class="aviso">
+    <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex:none;color:var(--cota)"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="14" cy="14" r="11"/><path d="M14 8v7"/></g><circle cx="14" cy="19.5" r="1.3" fill="currentColor"/></svg>
+    <p><strong>No es un GPS.</strong> La chapita no muestra en un mapa dónde está tu mascota. Sirve para que quien la encuentre pueda identificarla y comunicarse con vos.</p>
+  </div>
+</section>
+
+<section class="sec" id="tamanos" aria-labelledby="t-tam" style="padding-top:0">
+  <div class="sec-head">
+    <h2 id="t-tam">Elegí el tamaño</h2>
+    <p>Las tres chapitas tienen el mismo diseño. Acá se ven a la misma escala para que puedas compararlas.</p>
+  </div>
+  <div class="tam-top">
+    <div class="lado" role="group" aria-label="Lado de la chapita">
+      <button type="button" aria-pressed="true" data-lado="frente">Frente</button>
+      <button type="button" aria-pressed="false" data-lado="dorso">Dorso</button>
+    </div>
+  </div>
+  <div class="tams" id="tams">
+    <div class="tam">
+      <div class="fig"><img class="frente" src="img/tam_chica_frente.webp" alt="Chapita chica, frente" width="560" height="640" loading="lazy"><img class="dorso" src="img/tam_chica_dorso.webp" alt="Chapita chica, dorso con QR" width="560" height="640" loading="lazy"></div>
+      <div class="cota-h" style="width:58.93%"><span></span></div><p class="med">Ø 30 mm</p>
+      <h3>Chica</h3><p>Gatos y perros pequeños</p>
+    </div>
+    <div class="tam">
+      <div class="fig"><img class="frente" src="img/tam_mediana_frente.webp" alt="Chapita mediana, frente" width="560" height="640" loading="lazy"><img class="dorso" src="img/tam_mediana_dorso.webp" alt="Chapita mediana, dorso con QR y la palabra ESCANEAME" width="560" height="640" loading="lazy"></div>
+      <div class="cota-h" style="width:70.71%"><span></span></div><p class="med">Ø 36 mm</p>
+      <h3>Mediana</h3><p>Perros medianos</p>
+    </div>
+    <div class="tam">
+      <div class="fig"><img class="frente" src="img/tam_grande_frente.webp" alt="Chapita grande, frente" width="560" height="640" loading="lazy"><img class="dorso" src="img/tam_grande_dorso.webp" alt="Chapita grande, dorso con QR y la palabra ESCANEAME" width="560" height="640" loading="lazy"></div>
+      <div class="cota-h" style="width:86.43%"><span></span></div><p class="med">Ø 44 mm</p>
+      <h3>Grande</h3><p>Perros grandes</p>
+    </div>
+  </div>
+  <div class="tabla-wrap">
+    <table>
+      <caption>Medidas aprobadas</caption>
+      <thead><tr><th scope="col">Medida</th><th scope="col">Chica</th><th scope="col">Mediana</th><th scope="col">Grande</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Diámetro</th><td>30 mm</td><td>36 mm</td><td>44 mm</td></tr>
+        <tr><th scope="row">Alto con oreja</th><td>36,5 mm</td><td>43 mm</td><td>52 mm</td></tr>
+        <tr><th scope="row">Agujero</th><td>3,5 mm</td><td>4 mm</td><td>5 mm</td></tr>
+        <tr><th scope="row">Grosor</th><td>2,4 mm</td><td>2,6 mm</td><td>3 mm</td></tr>
+        <tr><th scope="row">QR</th><td>16,5 mm</td><td>18 mm</td><td>22 mm</td></tr>
+        <tr><th scope="row">Módulo QR</th><td>0,66 mm</td><td>0,72 mm</td><td>0,88 mm</td></tr>
+        <tr><th scope="row">Chip NFC</th><td>20 mm</td><td>25 mm</td><td>25 mm</td></tr>
+        <tr><th scope="row">Peso aproximado</th><td>2 g</td><td>3 g</td><td>6 g</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="orienta">Los tamaños son orientativos, no una regla veterinaria. Lo importante es que la chapita le quede cómoda en el collar.</p>
+</section>
+
+<section class="sec" id="fabricacion" aria-label="Detalles de la chapita" style="padding-top:0">
+  <div class="fab">
+    <div class="detalles">
+      <figure><img src="img/det_huella.webp" alt="Detalle de la huella y las ondas en relieve sobre el frente cobrizo" width="640" height="640" loading="lazy"><figcaption><b>Huella y ondas en relieve</b>Sobresalen del frente cobrizo.</figcaption></figure>
+      <figure><img src="img/det_aro.webp" alt="Detalle del aro superior integrado con su agujero" width="640" height="640" loading="lazy"><figcaption><b>Aro integrado</b>Es parte de la misma pieza.</figcaption></figure>
+      <figure><img src="img/det_qr.webp" alt="Detalle del dorso con el código QR sobre una superficie crema" width="640" height="640" loading="lazy"><figcaption><b>QR en el dorso</b>Cuadro crema con módulos cobrizos.</figcaption></figure>
+      <figure><img src="img/det_perfil.webp" alt="Vista de perfil de la chapita que muestra su grosor" width="640" height="640" loading="lazy"><figcaption><b>Perfil delgado</b>2,6 mm en la mediana.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="veterinarias" aria-labelledby="t-vet" style="padding-top:0">
+  <div class="sec-head">
+    <h2 id="t-vet">Dónde conseguirla</h2>
+    <p>Vamos a venderla en veterinarias y locales. Elegí tu ciudad y comunicate directamente con el punto de venta. Todavía está en desarrollo: los que figuran son ejemplos.</p>
+  </div>
+  <div class="ciudades" id="ciudades" role="group" aria-label="Filtrar por ciudad"><span class="rot">Ciudad</span></div>
+  <ul class="puntos" id="puntos">
+    <li class="sumarse" id="sumarse">
+      <h3>¿Tenés una veterinaria o un local?</h3>
+      <p>Sumate como punto de venta y aparecé en esta lista. Vas a poder configurar las chapitas de tus clientes y llevar el control desde un panel que te habilitamos nosotros.</p>
+      <a class="btn btn-2" id="sumarseLink" href="#" hidden>Quiero sumarme</a>
+      <p class="pronto" id="sumarsePronto">Muy pronto vas a poder anotarte desde acá.</p>
+    </li>
+  </ul>
+</section>
+
+<section class="sec" id="preguntas" aria-labelledby="t-faq" style="padding-top:0">
+  <div class="sec-head"><h2 id="t-faq">Preguntas frecuentes</h2></div>
+  <div class="faq">
+    <details><summary>¿Cómo funciona el QR?</summary><p>El QR guarda una dirección web. Al escanearlo con la cámara del celular, se abre la página de identificación de la mascota en el navegador.</p></details>
+    <details><summary>¿Cómo funciona el NFC?</summary><p>Adentro de la chapita hay una etiqueta NFC sin batería. Al acercar un celular con NFC activado, el teléfono la lee y abre la página de identificación.</p></details>
+    <details><summary>¿Necesito una aplicación para escanearla?</summary><p>No. Para el QR alcanza con la cámara del celular. Para el NFC, el teléfono tiene que tener NFC y tenerlo activado.</p></details>
+    <details><summary>¿Qué tamaño debería elegir?</summary><p>La chica (30 mm) está pensada para gatos y perros pequeños, la mediana (36 mm) para perros medianos y la grande (44 mm) para perros grandes. Son orientaciones: elegí la que le quede cómoda en el collar.</p></details>
+    <details><summary>¿Qué pasa si cambia mi información de contacto?</summary><p>La chapita guarda una dirección web, no tus datos. Por eso la información se puede cambiar sin tocar la chapita.<br><span class="pend">Estamos definiendo cómo vas a poder actualizarla.</span></p></details>
+    <details><summary>¿Dónde la consigo?</summary><p>La idea es venderla en veterinarias. Todavía estamos en desarrollo, así que por ahora no está a la venta.</p></details>
+    <details><summary>¿La chapita tiene GPS?</summary><p>No. No muestra en un mapa dónde está tu mascota. Sirve para que quien la encuentre pueda identificarla y contactarte.</p></details>
+    <details><summary>¿Cómo se coloca en el collar?</summary><p>Por el aro superior, que tiene un agujero de 3,5 mm en la chica, de 4 mm en la mediana y de 5 mm en la grande. Se pasa una argolla por el agujero y se engancha al collar.</p></details>
+  </div>
+</section>
+
+<div class="wrap-cierre" id="pedido">
+  <section class="cierre" aria-labelledby="t-cierre">
+    <div class="txt">
+      <h2 id="t-cierre">Para que vuelvan a casa.</h2>
+      <p>Una chapita no reemplaza el cuidado de todos los días, pero le da a quien encuentra a tu mascota una forma simple de comunicarse con vos.</p>
+      <div class="btns" id="ctaPedido" hidden>
+        <a class="btn btn-1" id="ctaLink" href="#" data-integracion="contacto">Quiero mi chapita</a>
+        <a class="btn btn-2" href="#tamanos">Ver los tamaños</a>
+      </div>
+      <p class="pronto" id="ctaPronto">Muy pronto vas a poder pedirla desde acá.</p>
+    </div>
+    <div class="img"><img src="img/hero.webp" alt="Chapita Encontrame terminada, vista de frente" width="719" height="900" loading="lazy"></div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="pie">
+    <div>
+      <a class="marca" href="#inicio" aria-label="Encontrame, volver al inicio"><img class="logo-cla" src="img/logo.svg" alt="Encontrame" width="170" height="23"><img class="logo-osc" src="img/logo_crema.svg" alt="Encontrame" width="170" height="23"></a>
+      <p>Chapitas identificatorias con QR y NFC para mascotas, impresas en 3D.</p>
+    </div>
+    <nav aria-label="Pie de página"><ul>
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#tamanos">Tamaños</a></li>
+      <li><a href="#fabricacion">Detalles</a></li>
+      <li><a href="#veterinarias">Dónde conseguirla</a></li>
+      <li><a href="#preguntas">Preguntas frecuentes</a></li>
+    </ul></nav>
+    <small>© 2026 Encontrame</small>
+  </div>
+</footer>
+
+<script>
+/* ===== Puntos de integración (completar cuando existan) =====
+   contactoUrl: destino real del botón "Quiero mi chapita" (tienda, WhatsApp, Instagram...).
+   Mientras esté vacío, el cierre muestra "Muy pronto vas a poder pedirla desde acá."
+   sumarseUrl: destino del botón "Quiero sumarme" para veterinarias y locales. Vacío = "Muy pronto…".
+   puntosDeVenta: un objeto por veterinaria o local. lat = latitud (ubica el punto sobre la RN 36).
+     whatsapp y telefono: solo números, con código de área (ej. 3584000000). Vacíos = no se muestran esos botones.
+     ejemplo: true marca la tarjeta como ejemplo. Cuando exista el panel, esta lista la va a completar él. */
+window.ENCONTRAME = {
+  contactoUrl: "",
+  sumarseUrl: "",
+  puntosDeVenta: [
+    { nombre: "Veterinaria de ejemplo", tipo: "Veterinaria", ciudad: "Berrotarán", lat: -32.451, direccion: "", horario: "", telefono: "", whatsapp: "", ejemplo: true },
+    { nombre: "Veterinaria de ejemplo", tipo: "Veterinaria", ciudad: "Río Cuarto", lat: -33.123, direccion: "", horario: "", telefono: "", whatsapp: "", ejemplo: true }
+  ]
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script>
+// interfaz sin 3D: menú, navegación, tamaños y CTA
+(function(){
+  var nav=document.getElementById('nav'), btn=document.getElementById('menuBtn');
+  function solid(){nav.classList.toggle('solida',window.scrollY>24)}
+  solid(); addEventListener('scroll',solid,{passive:true});
+  btn.addEventListener('click',function(){var o=btn.getAttribute('aria-expanded')!=='true';btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');nav.classList.toggle('abierta',o)});
+  document.querySelectorAll('#navLinks a').forEach(function(a){a.addEventListener('click',function(){btn.setAttribute('aria-expanded','false');nav.classList.remove('abierta')})});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('abierta')){btn.click();btn.focus()}});
+  var tams=document.getElementById('tams');
+  document.querySelectorAll('.lado button').forEach(function(b){b.addEventListener('click',function(){
+    document.querySelectorAll('.lado button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    tams.classList.toggle('ver-dorso',b.dataset.lado==='dorso')})});
+  var url=(window.ENCONTRAME||{}).contactoUrl;
+  if(url){document.getElementById('ctaLink').href=url;document.getElementById('ctaPedido').hidden=false;document.getElementById('ctaPronto').hidden=true}
+  puntosDeVenta();
+  // títulos del recorrido: aparecen deslizándose al entrar cada etapa y se esconden al salir
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('visible',e.isIntersecting)})},{rootMargin:'-30% 0px -30% 0px'});
+    document.querySelectorAll('.panel.solo-titulo').forEach(function(p){io.observe(p)});
+  } else document.querySelectorAll('.panel.solo-titulo').forEach(function(p){p.classList.add('visible')});
+})();
+
+// puntos de venta: filtro por ciudad y tarjetas (datos en window.ENCONTRAME.puntosDeVenta)
+function puntosDeVenta(){
+  var cfg=window.ENCONTRAME||{}, lista=(cfg.puntosDeVenta||[]).slice();
+  var ul=document.getElementById('puntos'), barra=document.getElementById('ciudades'), sumarse=document.getElementById('sumarse');
+  if(cfg.sumarseUrl){var a=document.getElementById('sumarseLink');a.href=cfg.sumarseUrl;a.hidden=false;document.getElementById('sumarsePronto').hidden=true}
+  var NS='http://www.w3.org/2000/svg';
+  // la RN 36 de norte a sur: Almafuerte arriba, Río Cuarto abajo
+  var N=-32.193, S=-33.123, enRuta=function(lat){return 20+Math.max(0,Math.min(1,(N-lat)/(N-S)))*280};
+  // [nombre, latitud, posición de la etiqueta]: alternadas arriba y abajo para que no se pisen
+  var pueblos=[['Almafuerte',-32.193,'abajo-inicio'],['Berrotarán',-32.451,'arriba'],['Elena',-32.572,'abajo'],['Río Cuarto',-33.123,'abajo-fin']];
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  function sv(tag,at){var e=document.createElementNS(NS,tag);for(var k in at)e.setAttribute(k,at[k]);return e}
+  function boton(txt,href,primario){var a=el('a','btn '+(primario?'btn-1':'btn-2'),txt);a.href=href;a.rel='noopener';if(/^https?:/.test(href))a.target='_blank';return a}
+  var tarjetas=lista.map(function(p){
+    var li=el('li','punto'); li.dataset.ciudad=p.ciudad;
+    var ruta=el('div','ruta'), svg=sv('svg',{viewBox:'0 0 320 74',role:'img','aria-label':'Ubicación de '+p.ciudad+' sobre la Ruta Nacional 36'});
+    svg.appendChild(sv('line',{x1:20,y1:36,x2:300,y2:36,'stroke-width':4,'stroke-linecap':'round','class':'linea'}));
+    pueblos.forEach(function(t){var x=enRuta(t[1]);svg.appendChild(sv('circle',{cx:x,cy:36,r:5,'stroke-width':2,'class':'pueblo'}));
+      var pos=t[2], tx=sv('text',{x:pos==='abajo-inicio'?x-6:pos==='abajo-fin'?x+6:x,y:pos==='arriba'?13:70,'text-anchor':pos==='abajo-inicio'?'start':pos==='abajo-fin'?'end':'middle'});tx.textContent=t[0];svg.appendChild(tx)});
+    var mx=enRuta(p.lat);
+    svg.appendChild(sv('circle',{cx:mx,cy:36,r:13,'class':'halo'}));
+    svg.appendChild(sv('circle',{cx:mx,cy:36,r:8,'stroke-width':3,'class':'aqui'}));
+    ruta.appendChild(svg); ruta.appendChild(el('small',null,'RUTA NACIONAL 36 · DE NORTE A SUR')); li.appendChild(ruta);
+    var info=el('div','info');
+    if(p.ejemplo) info.appendChild(el('span','marca-ej','Ejemplo'));
+    info.appendChild(el('span','tipo',(p.tipo||'Punto de venta')+' · '+p.ciudad));
+    info.appendChild(el('h3',null,p.nombre));
+    var d=el('div','datos-punto');
+    d.appendChild(el('span',null,p.direccion||'Dirección a confirmar'));
+    if(p.horario) d.appendChild(el('span',null,p.horario));
+    info.appendChild(d);
+    var acc=el('div','acciones');
+    if(p.whatsapp) acc.appendChild(boton('WhatsApp','https://wa.me/54'+String(p.whatsapp).replace(/\D/g,''),true));
+    if(p.telefono) acc.appendChild(boton('Llamar','tel:+54'+String(p.telefono).replace(/\D/g,''),!p.whatsapp));
+    if(p.direccion) acc.appendChild(boton('Cómo llegar','https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.direccion+', '+p.ciudad+', Córdoba'),false));
+    if(acc.children.length) info.appendChild(acc); else info.appendChild(el('span','datos-punto','Datos de contacto a confirmar'));
+    li.appendChild(info); ul.insertBefore(li,sumarse); return li;
+  });
+  var ciudades=[]; lista.forEach(function(p){if(ciudades.indexOf(p.ciudad)<0)ciudades.push(p.ciudad)});
+  var botones=[['',  'Todas ('+lista.length+')']].concat(ciudades.map(function(c){return [c,c]})).map(function(o){
+    var b=el('button',null,o[1]); b.type='button'; b.setAttribute('aria-pressed',o[0]===''?'true':'false');
+    b.addEventListener('click',function(){
+      botones.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      tarjetas.forEach(function(t){t.hidden=!!o[0]&&t.dataset.ciudad!==o[0]});
+    });
+    barra.appendChild(b); return b;
+  });
+  if(!lista.length) barra.hidden=true;
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const stage=document.getElementById('stage'), carga=document.getElementById('carga'), etapas=[...document.querySelectorAll('#etapas li')];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const movil=matchMedia('(max-width: 860px)');
+const sin3d=()=>{stage.classList.add('sin3d');carga.classList.add('listo');etapas[0].parentElement.style.display='none'};
+
+let gl=null; try{const c=document.createElement('canvas');gl=c.getContext('webgl2')||c.getContext('webgl')}catch(e){}
+if(!gl||!window.gsap){sin3d()} else init().catch(e=>{console.error(e);sin3d()});
+
+// El visor de artifacts bloquea fetch() de URLs data:, y el .gltf.json trae su buffer así.
+// Se decodifica acá y se arma un GLB en memoria para que GLTFLoader no tenga que pedir nada.
+async function glbDesdeGltf(url){
+  const j=await (await fetch(url)).json();
+  const b64=j.buffers[0].uri.slice(j.buffers[0].uri.indexOf(',')+1); delete j.buffers[0].uri;
+  const bs=atob(b64), bin=new Uint8Array(bs.length); for(let i=0;i<bs.length;i++) bin[i]=bs.charCodeAt(i);
+  const txt=new TextEncoder().encode(JSON.stringify(j));
+  const pad=n=>(n+3)&~3, jl=pad(txt.length), bl=pad(bin.length), total=12+8+jl+8+bl;
+  const out=new Uint8Array(total), dv=new DataView(out.buffer);
+  dv.setUint32(0,0x46546C67,true); dv.setUint32(4,2,true); dv.setUint32(8,total,true);
+  dv.setUint32(12,jl,true); dv.setUint32(16,0x4E4F534A,true); out.fill(0x20,20,20+jl); out.set(txt,20);
+  dv.setUint32(20+jl,bl,true); dv.setUint32(24+jl,0x004E4942,true); out.set(bin,28+jl);
+  return out.buffer;
+}
+
+async function init(){
+  gsap.registerPlugin(ScrollTrigger);
+  const lowEnd=(navigator.hardwareConcurrency||8)<=4||movil.matches;
+  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,lowEnd?1.5:2));
+  renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.NoToneMapping;
+  renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  stage.prepend(renderer.domElement);
+  renderer.domElement.setAttribute('aria-hidden','true');
+  const mascotas=document.getElementById('mascotas'), heroPanel=document.querySelector('.panel.hero');
+  // zoom de entrada: al empezar a bajar, en ~2 s la cámara se acerca a la chapita del perro hasta que la llena;
+  // ahí se funde con la chapita 3D y sigue el recorrido. Al volver arriba, se deshace.
+  const Z={v:0,meta:0}, CH={x:.14,y:.434,w:.056};   // centro y ancho de la chapita del perro, relativos a la imagen
+  function zoomA(meta){if(Z.meta===meta)return;Z.meta=meta;gsap.killTweensOf(Z);gsap.to(Z,{v:meta,duration:reduce?.01:(meta?2:1),ease:'power2.inOut',onUpdate:req})}
+  function aplicarZoom(){
+    if(!mascotas)return;
+    const e=sm(Z.v,0,.8), fw=mascotas.offsetWidth, fh=mascotas.offsetHeight;
+    const izq=mascotas.offsetLeft-fw/2, arr=movil.matches?mascotas.offsetTop:mascotas.offsetTop-fh/2;
+    const cx=fw*CH.x, cy=fh*CH.y;
+    // a dónde va: donde aparece la chapita 3D (centro del escenario; en el celular, más arriba)
+    const dx=W/2-(izq+cx), dy=(movil.matches?H*.29:H/2)-(arr+cy);
+    const k=(H*(movil.matches?.34:.62))/(fw*CH.w*1.2);  // escala para que la chapita ocupe casi todo el alto
+    mascotas.style.transformOrigin=cx+'px '+cy+'px';
+    mascotas.style.transform=(movil.matches?'translateX(-50%)':'translate(-50%,-50%)')+' translate('+(dx*e).toFixed(1)+'px,'+(dy*e).toFixed(1)+'px) scale('+(1+(k-1)*e*e).toFixed(3)+')';
+    const op=1-sm(Z.v,.72,1); mascotas.style.opacity=op.toFixed(3); mascotas.style.visibility=op<.01?'hidden':'visible';
+    renderer.domElement.style.opacity=sm(Z.v,.74,1).toFixed(3);
+    // celular: cuando aparece la chapita, el cuadro del título se va hacia el costado para no taparla
+    if(heroPanel) heroPanel.classList.toggle('fuera',movil.matches&&Z.v>.85);
+  }
+
+  const scene=new THREE.Scene();
+  const pmrem=new THREE.PMREMGenerator(renderer);
+  const envTex=pmrem.fromScene(new RoomEnvironment(),0.04).texture; scene.environment=envTex; pmrem.dispose();
+  scene.add(new THREE.HemisphereLight(0xfff8ef,0xd8c8b4,0.5));
+  const key=new THREE.DirectionalLight(0xfff4e6,1.15); key.position.set(-2.5,7,2.2); key.castShadow=true;
+  key.shadow.mapSize.set(lowEnd?512:1024,lowEnd?512:1024); key.shadow.radius=6; key.shadow.bias=-0.0004;
+  Object.assign(key.shadow.camera,{left:-4,right:4,top:4,bottom:-4,near:1,far:20});
+  scene.add(key);
+  const rim=new THREE.DirectionalLight(0xffffff,0.8); rim.position.set(4,2,-3); scene.add(rim);
+
+  const camera=new THREE.PerspectiveCamera(26,1,0.1,100);
+
+  // piso de sombra
+  const piso=new THREE.Mesh(new THREE.PlaneGeometry(14,14),new THREE.ShadowMaterial({opacity:.16})); piso.rotation.x=-Math.PI/2; piso.position.y=-2.05; piso.receiveShadow=true; scene.add(piso);
+
+  // modelo real (copia derivada para web de los archivos de fabricación)
+  const gltf=await new GLTFLoader().parseAsync(await glbDesdeGltf('modelo/chapita_mediana.gltf.json'),'');
+  const spin=new THREE.Group(), tilt=new THREE.Group(); spin.add(tilt); scene.add(spin);
+  const capa1=new THREE.Group(), nfc=new THREE.Group(), capa2=new THREE.Group(); tilt.add(capa1,nfc,capa2);
+  [...gltf.scene.children].forEach(o=>{
+    if(!o.isMesh) return;
+    const g=o.geometry.toNonIndexed(); g.computeVertexNormals(); o.geometry.dispose(); o.geometry=g;
+    o.material=o.material.clone(); o.material.envMapIntensity=0.42; o.castShadow=true;
+    // huella crema (como el prototipo impreso), en lugar del marrón oscuro del modelo
+    if(o.name==='capa2_huella_marron'){o.material.color.setRGB(0.898,0.792,0.6235);o.material.roughness=0.62}
+    const n=o.name;
+    if(n.startsWith('capa1')) {o.material.transparent=true; capa1.add(o);}
+    else if(n.startsWith('capa2')) {o.material.transparent=true; capa2.add(o);}
+    else {o.castShadow=false; o.material.emissive=new THREE.Color(0x2A8C82); o.material.emissiveIntensity=0; nfc.add(o);}
+  });
+  const mats1=capa1.children.map(m=>m.material), mats2=capa2.children.map(m=>m.material), matsNfc=nfc.children.map(m=>m.material);
+  // efecto alfajor: cuánto se separan del centro (cm) la cara del frente y la del dorso
+  const SEP_FRENTE=.9, SEP_DORSO=.9;
+  // alturas reales de la mediana (mm): dorso 0-0,6 · hueco 1,0-1,6 · tapa 1,6-2,0 · relieve 2,0-2,6 → en cm centrado
+  const Y0=-0.13, YCHIP=0.03, YTOP=0.13;
+  // indicación discreta de la función NFC: un anillo fino
+  const anillo=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([...Array(96)].map((_,i)=>new THREE.Vector3(Math.cos(i/96*Math.PI*2)*1.38,0,Math.sin(i/96*Math.PI*2)*1.38))),new THREE.LineBasicMaterial({color:0x2A8C82,transparent:true,opacity:0}));
+  anillo.position.y=0.002; tilt.add(anillo);
+
+  const S={p:0,intro:reduce?1:0}; window.__encontrameEscena=S;
+  const sm=(x,a,b)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};
+  const lerp=(a,b,t)=>a+(b-a)*t, TAU=Math.PI*2;
+  const win=(p,a,b,c,d)=>sm(p,a,b)*(1-sm(p,c,d));
+  // cámara: [p, azimut, elevación, distancia, objetivo y]
+  const CK=[[0,0,.07,15.5,.36],[.24,0,.07,15.5,.36],[.48,.22,.58,14,0],[.74,.4,.78,12.5,0],[1,.62,.6,15,0]];
+  function camAt(p){let i=0;while(i<CK.length-2&&p>CK[i+1][0])i++;const a=CK[i],b=CK[i+1],t=sm(p,a[0],b[0]);return a.map((v,k)=>lerp(v,b[k],t))}
+
+  let W=1,H=1;
+
+  function pose(){
+    // el recorrido va al revés de la fabricación: arranca terminada y de frente, y termina en la base
+    const p=S.p;
+    // primera vista: el perro y el gato; al empezar a bajar, zoom a la chapita del perro y aparece la 3D
+    zoomA(st&&st.progress>.002?1:0); aplicarZoom();
+    // 1 · terminada y parada; 2 · gira y muestra el dorso; 3 · se acuesta en la cama
+    const u=1-sm(p,.26,.4);
+    tilt.rotation.x=u*Math.PI/2;
+    piso.position.y=lerp(Y0-.004,-2.0,u);
+    // giro atado al scroll (al subir se deshace): media vuelta al dorso, vuelta y media al acostarse
+    // y una vuelta más sobre la cama mientras se desarma; al cargar entra girando
+    spin.rotation.y=Math.PI*sm(p,.08,.24)+3*Math.PI*sm(p,.26,.42)+TAU*sm(p,.5,.98)-(1-S.intro)*Math.PI+G.a;
+    // parada, flota suavemente
+    spin.position.y=reduce?0:u*Math.sin(performance.now()/1000*1.7)*.07;
+    // 2 → 3 · efecto alfajor: la chapita se abre sobre su eje perpendicular (Y local, el frente mira a +Y).
+    // Tapa, relieves y huella van hacia adelante, la base con el QR hacia atrás y el chip queda en el centro.
+    // Separación y desvanecimiento con easing power2.inOut; al subir se recompone por el mismo camino.
+    const io=(a,b)=>{const t=Math.min(1,Math.max(0,(p-a)/(b-a)));return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2};
+    const sep=io(.30,.48), fade=io(.34,.50), vuelve=io(.54,.64); // vuelve: la base regresa para la etapa de la pausa
+    const op2=1-fade, op1=1-fade*(1-vuelve);
+    capa2.scale.y=1; capa2.position.y=SEP_FRENTE*sep; capa2.visible=op2>.005;
+    mats2.forEach(m=>{m.opacity=op2}); capa2.children.forEach(m=>{m.castShadow=op2>.5});
+    mats1.forEach(m=>{m.opacity=op1}); capa1.children.forEach(m=>{m.castShadow=op1>.5}); capa1.visible=op1>.005;
+    // 3 · el chip, solo en pantalla, toma protagonismo con un brillo suave
+    const brillo=win(p,.40,.50,.56,.64); matsNfc.forEach(m=>{m.emissiveIntensity=brillo*.45});
+    anillo.material.opacity=win(p,.48,.52,.58,.63)*.9; anillo.scale.setScalar(1+.06*sm(p,.48,.63));
+    // 4 · la etiqueta NFC sale del hueco
+    const n=sm(p,.58,.74), e=n<.5?4*n*n*n:1-Math.pow(-2*n+2,3)/2;
+    nfc.position.set(lerp(0,2.2,e),lerp(0,1.5,e),lerp(0,-.9,e));
+    nfc.rotation.set(lerp(0,-.35,e),lerp(0,.6,e),lerp(0,-.3,e));
+    nfc.visible=n<.97;
+    // 5 · la base baja capa por capa hasta las primeras
+    const s1=Math.ceil(lerp(8,3,sm(p,.78,.98)))/8; capa1.scale.y=s1; capa1.position.y=Y0*(1-s1)-SEP_DORSO*sep*(1-vuelve);
+    // cámara
+    const [,az,el,d,ty]=camAt(p), k=Math.max(.86,.7/camera.aspect);
+    camera.position.set(d*k*Math.sin(az)*Math.cos(el),d*k*Math.sin(el)+ty,d*k*Math.cos(az)*Math.cos(el));
+    camera.lookAt(0,ty,0);
+    // etapa activa
+    const idx=p<.12?0:p<.37?1:p<.62?2:p<.87?3:4;
+    etapas.forEach((li,i)=>li.classList.toggle('on',i<=idx));
+  }
+
+  // render a demanda
+  // giro extra según la velocidad del scroll: cuanto más rápido baja o sube el usuario, más rápido gira.
+  // Al soltar, sigue por inercia en el mismo sentido y termina la vuelta completa (no cambia la pose de cada etapa).
+  const G={a:0,v:0,meta:null,t:performance.now()}; let st=null;
+  function girar(){
+    const now=performance.now(), dt=Math.min(.05,(now-G.t)/1000); G.t=now;
+    if(reduce||!st) return false;
+    if(Z.v<1){G.a=0;G.v=0;G.meta=null;return false} // durante el zoom de entrada, sin giro extra
+    const vel=st.getVelocity(); // px/s, con signo
+    if(Math.abs(vel)>30){
+      const w=Math.max(-20,Math.min(20,vel*.009)); // rad/s
+      G.v+=(w-G.v)*Math.min(1,dt*6); G.meta=null;
+    } else {
+      if(G.meta===null) G.meta=(G.v>=0?Math.ceil(G.a/TAU-.02):Math.floor(G.a/TAU+.02))*TAU; // la vuelta completa siguiente en el sentido del giro
+      G.v+=((G.meta-G.a)*16-G.v*7)*dt; // resorte suave
+    }
+    G.a+=G.v*dt;
+    const sigue=Math.abs(G.v)>.002||(G.meta!==null&&Math.abs(G.a-G.meta)>.001);
+    if(!sigue&&G.meta!==null){G.a=G.meta=0;G.v=0}
+    return sigue;
+  }
+  let pend=false, visible=true;
+  const req=()=>{if(!pend&&visible){pend=true;requestAnimationFrame(frame)}};
+  function frame(){pend=false;const gira=girar();pose();renderer.render(scene,camera);if(gira||(!reduce&&S.p<.42)||(Z.v>0&&Z.v<1))req()}
+  function resize(){
+    W=stage.clientWidth;H=stage.clientHeight;renderer.setSize(W,H,false);
+    camera.aspect=W/H;
+    if(movil.matches) camera.setViewOffset(W,H,0,H*.21,W,H); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();req();
+  }
+  new ResizeObserver(resize).observe(stage); resize();
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)req()}).observe(stage);
+
+  // scroll → progreso determinista
+  st=gsap.to(S,{p:1,ease:'none',onUpdate:req,scrollTrigger:{trigger:'#inicio',start:'top top',end:'bottom bottom',scrub:reduce?true:.6,invalidateOnRefresh:true}}).scrollTrigger;
+  addEventListener('scroll',req,{passive:true});
+  carga.classList.add('listo');
+  if(!reduce) gsap.to(S,{intro:1,duration:1.6,delay:.2,ease:'power2.out',onUpdate:req});
+  req();
+
+  addEventListener('pagehide',()=>{
+    renderer.dispose();envTex.dispose();
+    scene.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)[].concat(o.material).forEach(m=>m.dispose())});
+  },{once:true});
+}
+</script>
+
+</body></html>
