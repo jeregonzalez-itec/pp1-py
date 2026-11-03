@@ -1,3 +1,0 @@
-# Sitio privado: no indexar mientras no se autorice la publicación.
-User-agent: *
-Disallow: /
