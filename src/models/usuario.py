@@ -1,8 +1,10 @@
-from typing import  Optional
+from typing import TYPE_CHECKING, Optional
 from sqlmodel import Field, Relationship, SQLModel
 
 from .estadoMascota import RolUsuarioEnum
-from .mascota import Mascota
+
+if TYPE_CHECKING:
+    from .mascota import Mascota
 
 
 class UsuarioBase(SQLModel):

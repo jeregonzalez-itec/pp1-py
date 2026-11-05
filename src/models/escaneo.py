@@ -1,9 +1,10 @@
 from datetime import datetime, timezone
-from typing import  Optional
+from typing import TYPE_CHECKING, Optional
 from sqlmodel import Field, Relationship, SQLModel
 
-from .tagnfc import TagNFC
-from .mascota import Mascota
+if TYPE_CHECKING:
+    from .mascota import Mascota
+    from .tagnfc import TagNFC
 
 
 class EscaneoTagBase(SQLModel):
@@ -15,7 +16,8 @@ class EscaneoTagBase(SQLModel):
     direccion_aproximada: Optional[str] = Field(default=None)
     mensaje_rescatista: Optional[str] = Field(default=None, description="Mensaje opcional de quien encontró la mascota")
     telefono_rescatista: Optional[str] = Field(default=None, description="Teléfono de contacto opcional de quien la encontró")
-   
+    ip_address: Optional[str] = Field(default=None, description="IP del cliente que realizó el escaneo")
+    user_agent: Optional[str] = Field(default=None, description="User-Agent del navegador o cliente")
 
 
 class EscaneoTag(EscaneoTagBase, table=True):
@@ -34,4 +36,3 @@ class ReporteAvistamientoCreate(SQLModel):
     longitud: Optional[float] = None
     mensaje: Optional[str] = Field(default=None, description="Mensaje para el dueño (ej: La tengo en la plaza)")
     telefono_contacto: Optional[str] = Field(default=None, description="Teléfono opcional para que el dueño te contacte")
-

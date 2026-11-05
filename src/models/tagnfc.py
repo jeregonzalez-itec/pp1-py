@@ -1,12 +1,14 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 import uuid
 from sqlmodel import Field, Relationship, SQLModel
 
 from .estadoMascota import EstadoTagEnum
-from .veterinaria import Veterinaria
-from .mascota import Mascota
-from .escaneo import EscaneoTag
+
+if TYPE_CHECKING:
+    from .escaneo import EscaneoTag
+    from .mascota import Mascota
+    from .veterinaria import Veterinaria
 
 
 def generar_token_publico() -> str:

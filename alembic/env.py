@@ -6,20 +6,12 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from sqlmodel import SQLModel
 
-# ---------------------------------------------------------------------------
-# Asegurar que src/ esté en sys.path para poder importar los modelos
-# ---------------------------------------------------------------------------
-BASE_DIR = Path(__file__).resolve().parent.parent / "src"
-if str(BASE_DIR) not in sys.path:
-    sys.path.insert(0, str(BASE_DIR))
 
-# Importar todos los modelos con tabla para que SQLModel.metadata los registre.
-# Si se agrega un modelo nuevo, importarlo aquí también.
-from models.usuario import Usuario          # noqa: F401
-from models.mascota import Mascota          # noqa: F401
-from models.tagnfc import TagNFC            # noqa: F401
-from models.veterinaria import Veterinaria  # noqa: F401
-from models.escaneo import EscaneoTag       # noqa: F401
+from src.models.veterinaria import Veterinaria
+from src.models.tagnfc import TagNFC           
+from src.models.usuario import Usuario       
+from src.models.mascota import Mascota         
+from src.models.escaneo import EscaneoTag     
 
 # ---------------------------------------------------------------------------
 # Configuración de Alembic

@@ -1,3 +1,4 @@
+import os
 import sys
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -24,9 +25,18 @@ app = FastAPI(
   
 )
 
+frontend_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "FRONTEND_ORIGINS",
+        "https://encontrame-app.vercel.app/"
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite cualquier origen en entorno de desarrollo/API pública NFC
+    allow_origins=frontend_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

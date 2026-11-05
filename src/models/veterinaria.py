@@ -1,6 +1,9 @@
 
+from typing import TYPE_CHECKING
 from sqlmodel import Field, Relationship, SQLModel
-from .tagnfc import TagNFC
+
+if TYPE_CHECKING:
+    from .tagnfc import TagNFC
 
 
 class VeterinariaBase(SQLModel):

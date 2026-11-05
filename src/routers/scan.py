@@ -77,7 +77,7 @@ def escanear_tag(
         user_agent=request.headers.get("user-agent"),
     )
     db.add(nuevo_escaneo)
-    db.commit()
+    commit_or_409(db)
 
     # Construir información de contacto si el dueño la habilitó
     contacto_publico: Optional[ContactoDuenoPublic] = None

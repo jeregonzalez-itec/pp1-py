@@ -1,10 +1,11 @@
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from sqlmodel import Field, Relationship, SQLModel
 from .estadoMascota import EstadoMascotaEnum
 
-from .tagnfc import TagNFC
-from .usuario import Usuario
-from .escaneo import EscaneoTag
+if TYPE_CHECKING:
+    from .escaneo import EscaneoTag
+    from .tagnfc import TagNFC
+    from .usuario import Usuario
 
 
 class MascotaBase(SQLModel):
