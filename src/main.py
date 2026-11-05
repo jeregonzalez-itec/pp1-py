@@ -1,25 +1,64 @@
+import os
+import sys
+from pathlib import Path
+from contextlib import asynccontextmanager
+
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
-from routers.mates import mates_routers
+from sqlmodel import SQLModel
+
+from database import engine
 from routers.auth import auth_routers
-from routers.proveedor import proveedor_routers
+from routers.usuario import usuario_routers
+from routers.mascota import mascota_routers
+from routers.tagnfc import tagnfc_routers
+from routers.veterinaria import veterinaria_routers
+from routers.scan import scan_routers
+
 
 app = FastAPI(
-    title="API de amatear"
+    title="Encontrame API",
+    description="Backend oficial de Encontrame: plataforma de identificación y reencuentro de mascotas con chapitas inteligentes NFC y QR.",
+    version="1.1.0",
+  
 )
 
-app.include_router(mates_routers, tags=["Mates"], prefix="/mates")
-app.include_router(proveedor_routers, tags=["Proveedor"], prefix="/proveedor")
-app.include_router(auth_routers, tags=["Autenticación"], prefix="/auth")
-add_pagination(app)
+frontend_origins = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv(
+        "FRONTEND_ORIGINS",
+        "https://encontrame-app.vercel.app/"
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500/"],
+    allow_origins=frontend_origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
-#/configuro qué aplicaciones pueden comunicarse con mi API y qué operaciones tienen permitida
 
- 
+# Registro de routers
+app.include_router(scan_routers, prefix="/scan", tags=["Escaneo Público y Reclamo"])
+app.include_router(auth_routers, prefix="/auth", tags=["Autenticación"])
+app.include_router(usuario_routers, prefix="/usuarios", tags=["Usuarios"])
+app.include_router(mascota_routers, prefix="/mascotas", tags=["Mascotas"])
+app.include_router(tagnfc_routers, prefix="/tags", tags=["Tags NFC"])
+app.include_router(veterinaria_routers, prefix="/veterinarias", tags=["Veterinarias"])
+
+# Paginación
+add_pagination(app)
+
+
+@app.get("/", tags=["General"])
+def root():
+    return {
+        "app": "Encontrame API",
+        "status": "online",
+        "version": "1.1.0",
+        "docs": "/docs",
+    }
